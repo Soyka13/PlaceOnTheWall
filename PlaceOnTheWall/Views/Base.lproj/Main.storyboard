@@ -4,7 +4,6 @@
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
-        <capability name="Stack View standard spacing" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -20,124 +19,13 @@
                             <arscnView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="61r-T4-tNH">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="862"/>
                             </arscnView>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" alignment="center" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="lah-DI-LVf">
-                                <rect key="frame" x="25" y="718" width="364" height="94"/>
-                                <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="5cs-wx-YrO">
-                                        <rect key="frame" x="0.0" y="0.0" width="364" height="43"/>
-                                        <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Vm-fs-Jm5">
-                                                <rect key="frame" x="0.0" y="0.0" width="85" height="43"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="36"/>
-                                                <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                <state key="normal" image="arrow.up" catalog="system">
-                                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="large"/>
-                                                </state>
-                                                <connections>
-                                                    <action selector="upTapped:" destination="v1U-NB-VtD" eventType="touchUpInside" id="441-J8-3CJ"/>
-                                                </connections>
-                                            </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8ON-Gf-n9z">
-                                                <rect key="frame" x="93" y="0.0" width="85" height="43"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="36"/>
-                                                <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                <state key="normal" image="arrow.down" catalog="system">
-                                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="large"/>
-                                                </state>
-                                                <connections>
-                                                    <action selector="downTapped:" destination="v1U-NB-VtD" eventType="touchUpInside" id="hEt-yK-g72"/>
-                                                </connections>
-                                            </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oi3-tC-aa1">
-                                                <rect key="frame" x="186" y="0.0" width="85" height="43"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="36"/>
-                                                <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                <state key="normal" image="arrow.left" catalog="system">
-                                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="large"/>
-                                                </state>
-                                                <connections>
-                                                    <action selector="leftTapped:" destination="v1U-NB-VtD" eventType="touchUpInside" id="l5F-Zk-pIS"/>
-                                                </connections>
-                                            </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0sg-Ck-REc">
-                                                <rect key="frame" x="279" y="0.0" width="85" height="43"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="36"/>
-                                                <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                <state key="normal" image="arrow.right" catalog="system">
-                                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="large"/>
-                                                </state>
-                                                <connections>
-                                                    <action selector="rightTapped:" destination="v1U-NB-VtD" eventType="touchUpInside" id="RZC-Qs-nXX"/>
-                                                </connections>
-                                            </button>
-                                        </subviews>
-                                    </stackView>
-                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="55" translatesAutoresizingMaskIntoConstraints="NO" id="OJv-QC-fmh">
-                                        <rect key="frame" x="48.5" y="51" width="267" height="43"/>
-                                        <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QKB-tZ-BrI">
-                                                <rect key="frame" x="0.0" y="0.0" width="25.5" height="43"/>
-                                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                <state key="normal" image="arrow.up.right" catalog="system">
-                                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="large"/>
-                                                </state>
-                                                <connections>
-                                                    <action selector="forwardTapped:" destination="v1U-NB-VtD" eventType="touchUpInside" id="cTl-ct-zMB"/>
-                                                </connections>
-                                            </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cx0-wM-xSv">
-                                                <rect key="frame" x="80.5" y="0.0" width="25.5" height="43"/>
-                                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                <state key="normal" image="arrow.down.left" catalog="system">
-                                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="large"/>
-                                                </state>
-                                                <connections>
-                                                    <action selector="backwardTapped:" destination="v1U-NB-VtD" eventType="touchUpInside" id="guu-Wh-eMO"/>
-                                                </connections>
-                                            </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZXx-dG-WSc">
-                                                <rect key="frame" x="161" y="0.0" width="25.5" height="43"/>
-                                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                <state key="normal" image="rotate.right.fill" catalog="system">
-                                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="large"/>
-                                                </state>
-                                                <connections>
-                                                    <action selector="rotateRightTapped:" destination="v1U-NB-VtD" eventType="touchUpInside" id="egc-YX-2aA"/>
-                                                </connections>
-                                            </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="A4X-Pd-VVA">
-                                                <rect key="frame" x="241.5" y="0.0" width="25.5" height="43"/>
-                                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                <state key="normal" image="rotate.left.fill" catalog="system">
-                                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="large"/>
-                                                </state>
-                                                <connections>
-                                                    <action selector="rotateRightTapped:" destination="v1U-NB-VtD" eventType="touchUpInside" id="aWf-of-Weo"/>
-                                                </connections>
-                                            </button>
-                                        </subviews>
-                                    </stackView>
-                                </subviews>
-                                <constraints>
-                                    <constraint firstItem="5cs-wx-YrO" firstAttribute="top" secondItem="lah-DI-LVf" secondAttribute="top" id="TGO-bR-E4s"/>
-                                    <constraint firstItem="5cs-wx-YrO" firstAttribute="leading" secondItem="lah-DI-LVf" secondAttribute="leading" id="XTl-Ah-yvc"/>
-                                    <constraint firstAttribute="trailing" secondItem="5cs-wx-YrO" secondAttribute="trailing" id="sPN-nY-uLr"/>
-                                </constraints>
-                            </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="N0e-YP-E7l"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="61r-T4-tNH" firstAttribute="top" secondItem="FhX-WA-gEI" secondAttribute="top" id="27W-xu-oMf"/>
                             <constraint firstItem="61r-T4-tNH" firstAttribute="leading" secondItem="N0e-YP-E7l" secondAttribute="leading" id="39n-3k-KuO"/>
-                            <constraint firstItem="N0e-YP-E7l" firstAttribute="trailing" secondItem="lah-DI-LVf" secondAttribute="trailing" constant="25" id="6oL-KL-b6j"/>
-                            <constraint firstItem="lah-DI-LVf" firstAttribute="leading" secondItem="N0e-YP-E7l" secondAttribute="leading" constant="25" id="DZJ-AU-77Q"/>
                             <constraint firstItem="61r-T4-tNH" firstAttribute="bottom" secondItem="N0e-YP-E7l" secondAttribute="bottom" id="Px2-1e-22C"/>
-                            <constraint firstItem="N0e-YP-E7l" firstAttribute="bottom" secondItem="lah-DI-LVf" secondAttribute="bottom" constant="50" id="RFw-Iy-5kI"/>
                             <constraint firstItem="61r-T4-tNH" firstAttribute="trailing" secondItem="N0e-YP-E7l" secondAttribute="trailing" id="u3U-fa-Sui"/>
                         </constraints>
                     </view>
@@ -201,14 +89,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="arrow.down" catalog="system" width="120" height="128"/>
-        <image name="arrow.down.left" catalog="system" width="128" height="112"/>
-        <image name="arrow.left" catalog="system" width="128" height="98"/>
-        <image name="arrow.right" catalog="system" width="128" height="98"/>
-        <image name="arrow.up" catalog="system" width="120" height="128"/>
-        <image name="arrow.up.right" catalog="system" width="128" height="112"/>
-        <image name="rotate.left.fill" catalog="system" width="128" height="124"/>
-        <image name="rotate.right.fill" catalog="system" width="128" height="124"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		9279BE3F25F56DD500AED139 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9279BE3E25F56DD500AED139 /* AppDelegate.swift */; };
-		9279BE4125F56DD500AED139 /* Paintings.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = 9279BE4025F56DD500AED139 /* Paintings.scnassets */; };
 		9279BE4625F56DD500AED139 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9279BE4425F56DD500AED139 /* Main.storyboard */; };
 		9279BE4825F56DD700AED139 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9279BE4725F56DD700AED139 /* Assets.xcassets */; };
 		9279BE4B25F56DD700AED139 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9279BE4925F56DD700AED139 /* LaunchScreen.storyboard */; };
@@ -16,12 +15,13 @@
 		92D2461A25F572F40081F484 /* SinglePictureCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92D2461825F572F40081F484 /* SinglePictureCell.swift */; };
 		92D2461B25F572F40081F484 /* SinglePictureCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 92D2461925F572F40081F484 /* SinglePictureCell.xib */; };
 		92D2462125F61B3B0081F484 /* ChooseModelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92D2462025F61B3B0081F484 /* ChooseModelViewController.swift */; };
+		92D2464225F636CE0081F484 /* SceneManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92D2464125F636CE0081F484 /* SceneManager.swift */; };
+		92D2464C25F6758B0081F484 /* Grid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92D2464B25F6758B0081F484 /* Grid.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		9279BE3B25F56DD500AED139 /* PlaceOnTheWall.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PlaceOnTheWall.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9279BE3E25F56DD500AED139 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		9279BE4025F56DD500AED139 /* Paintings.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = Paintings.scnassets; sourceTree = "<group>"; };
 		9279BE4225F56DD500AED139 /* ARViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARViewController.swift; sourceTree = "<group>"; };
 		9279BE4525F56DD500AED139 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		9279BE4725F56DD700AED139 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -30,6 +30,8 @@
 		92D2461825F572F40081F484 /* SinglePictureCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SinglePictureCell.swift; sourceTree = "<group>"; };
 		92D2461925F572F40081F484 /* SinglePictureCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SinglePictureCell.xib; sourceTree = "<group>"; };
 		92D2462025F61B3B0081F484 /* ChooseModelViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseModelViewController.swift; sourceTree = "<group>"; };
+		92D2464125F636CE0081F484 /* SceneManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneManager.swift; sourceTree = "<group>"; };
+		92D2464B25F6758B0081F484 /* Grid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Grid.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,7 +65,8 @@
 			isa = PBXGroup;
 			children = (
 				9279BE5425F56E2A00AED139 /* Supporting files */,
-				9279BE4025F56DD500AED139 /* Paintings.scnassets */,
+				92D2464B25F6758B0081F484 /* Grid.swift */,
+				92D2464125F636CE0081F484 /* SceneManager.swift */,
 				9279BE5725F56E4900AED139 /* Controllers */,
 				9279BE5625F56E4400AED139 /* Views */,
 				9279BE4C25F56DD700AED139 /* Info.plist */,
@@ -166,7 +169,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				92D2461B25F572F40081F484 /* SinglePictureCell.xib in Resources */,
-				9279BE4125F56DD500AED139 /* Paintings.scnassets in Resources */,
 				9279BE4B25F56DD700AED139 /* LaunchScreen.storyboard in Resources */,
 				9279BE4825F56DD700AED139 /* Assets.xcassets in Resources */,
 				9279BE4625F56DD500AED139 /* Main.storyboard in Resources */,
@@ -182,7 +184,9 @@
 			files = (
 				9279BE3F25F56DD500AED139 /* AppDelegate.swift in Sources */,
 				92D2461A25F572F40081F484 /* SinglePictureCell.swift in Sources */,
+				92D2464225F636CE0081F484 /* SceneManager.swift in Sources */,
 				92D2461225F571C20081F484 /* ARViewController.swift in Sources */,
+				92D2464C25F6758B0081F484 /* Grid.swift in Sources */,
 				92D2462125F61B3B0081F484 /* ChooseModelViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
