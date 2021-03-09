@@ -13,12 +13,11 @@ class SceneManager: NSObject {
     
     var sceneView: ARSCNView?
     
-    var initVirtualTiles = false
+    var isPaintingPlaced = false
     var currentParentNode: SCNNode?
     var paintingNumber: Int? 
     
     var grids = [Grid]()
-    
     
     func attach(to arSceneView: ARSCNView) {
         guard ARWorldTrackingConfiguration.isSupported else {
@@ -33,24 +32,40 @@ class SceneManager: NSObject {
         sceneView?.autoenablesDefaultLighting = true
         sceneView?.scene.physicsWorld.gravity = SCNVector3(0, -3.0, 0)
         
-        configureSceneView(self.sceneView!)
+        configureARSession()
+        configureSceneView()
     }
     
     func showSceneDebugInfo() {
-        sceneView?.debugOptions = .showFeaturePoints
-        sceneView?.showsStatistics = true
+        guard let sceneView = sceneView else { return }
+        
+        sceneView.debugOptions = .showFeaturePoints
+        sceneView.showsStatistics = true
     }
     
-    private func configureSceneView(_ sceneView: ARSCNView) {
-        let configuration = ARWorldTrackingConfiguration()
-        configuration.planeDetection = [.vertical]
-        configuration.isLightEstimationEnabled = true
-        
-        sceneView.session.run(configuration, options: [.resetTracking, .removeExistingAnchors])
+    private func configureSceneView() {
+        guard let sceneView = sceneView else { return }
         
         sceneView.antialiasingMode = .multisampling4X
         sceneView.automaticallyUpdatesLighting = true
         sceneView.preferredFramesPerSecond = 60
+    }
+    
+    private func configureARSession() {
+        guard let sceneView = sceneView else { return }
+        
+        let config = ARWorldTrackingConfiguration()
+        config.planeDetection = .vertical
+        config.isLightEstimationEnabled = true
+        sceneView.session.run(config)
+    }
+    
+    func resetARSession() {
+        guard let sceneView = sceneView else { return }
+        
+        let config = sceneView.session.configuration as! ARWorldTrackingConfiguration
+        config.planeDetection = .vertical
+        sceneView.session.run(config, options: [.resetTracking, .removeExistingAnchors])
     }
     
     func addPainting(to node: SCNNode) {
@@ -64,7 +79,7 @@ class SceneManager: NSObject {
         paintingNode.position = node.position
         node.addChildNode(paintingNode)
         
-        initVirtualTiles = true
+        isPaintingPlaced = true
     }
     
     private func addNodeAnchor(worldTransform: simd_float4x4) {
@@ -74,7 +89,7 @@ class SceneManager: NSObject {
 
 extension SceneManager: ARSCNViewDelegate {
     func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
-        if let name = anchor.name, !initVirtualTiles, name == "node_anchor" {
+        if let name = anchor.name, !isPaintingPlaced, name == "node_anchor" {
             addPainting(to: node)
             currentParentNode = node
             self.grids.forEach { $0.removeFromParentNode() }
