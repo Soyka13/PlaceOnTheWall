@@ -70,8 +70,6 @@ class SceneManager: NSObject {
     private func addNodeAnchor(worldTransform: simd_float4x4) {
         sceneView?.session.add(anchor: ARAnchor(name: "node_anchor", transform: worldTransform))
     }
-    
-    
 }
 
 extension SceneManager: ARSCNViewDelegate {

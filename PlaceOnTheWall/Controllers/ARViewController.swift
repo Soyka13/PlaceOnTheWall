@@ -34,11 +34,34 @@ class ARViewController: UIViewController {
         sceneManager.attach(to: sceneView)
         sceneManager.showSceneDebugInfo()
         
+        initCoachingOverlayView()
+        
         let scaleGesture = UIPinchGestureRecognizer(target: self, action: #selector(scaleNode))
         self.sceneView.addGestureRecognizer(scaleGesture)
         
         let rotationGesture = UIRotationGestureRecognizer(target: self, action: #selector(rotateNode))
         self.sceneView.addGestureRecognizer(rotationGesture)
+    }
+    
+    func initCoachingOverlayView() {
+      let coachingOverlay = ARCoachingOverlayView()
+      coachingOverlay.session = self.sceneView.session
+      coachingOverlay.delegate = self
+      coachingOverlay.translatesAutoresizingMaskIntoConstraints = false
+      coachingOverlay.activatesAutomatically = true
+      coachingOverlay.goal = .verticalPlane
+      self.sceneView.addSubview(coachingOverlay)
+      
+      NSLayoutConstraint.activate([
+        NSLayoutConstraint(item:  coachingOverlay, attribute: .top, relatedBy: .equal,
+                           toItem: self.view, attribute: .top, multiplier: 1, constant: 0),
+        NSLayoutConstraint(item:  coachingOverlay, attribute: .bottom, relatedBy: .equal,
+                           toItem: self.view, attribute: .bottom, multiplier: 1, constant: 0),
+        NSLayoutConstraint(item:  coachingOverlay, attribute: .leading, relatedBy: .equal,
+                           toItem: self.view, attribute: .leading, multiplier: 1, constant: 0),
+        NSLayoutConstraint(item:  coachingOverlay, attribute: .trailing, relatedBy: .equal,
+                           toItem: self.view, attribute: .trailing, multiplier: 1, constant: 0)
+      ])
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -124,4 +147,20 @@ class ARViewController: UIViewController {
         }
     }
 
+}
+
+extension ARViewController : ARCoachingOverlayViewDelegate {
+  
+  // MARK: - AR Coaching Overlay View
+  
+  func coachingOverlayViewWillActivate(_ coachingOverlayView: ARCoachingOverlayView) {
+  }
+  
+  func coachingOverlayViewDidDeactivate(_ coachingOverlayView: ARCoachingOverlayView) {
+    
+  }
+  
+  func coachingOverlayViewDidRequestSessionReset(_ coachingOverlayView: ARCoachingOverlayView) {
+    
+  }
 }
