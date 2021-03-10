@@ -8,7 +8,7 @@
 import Foundation
 import ARKit
 
-class Grid : SCNNode {
+class GridNode: SCNNode {
     
     var anchor: ARPlaneAnchor
     var planeGeometry: SCNPlane!

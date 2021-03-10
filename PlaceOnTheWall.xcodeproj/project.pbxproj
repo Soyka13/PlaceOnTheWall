@@ -11,12 +11,13 @@
 		9279BE4625F56DD500AED139 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9279BE4425F56DD500AED139 /* Main.storyboard */; };
 		9279BE4825F56DD700AED139 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9279BE4725F56DD700AED139 /* Assets.xcassets */; };
 		9279BE4B25F56DD700AED139 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9279BE4925F56DD700AED139 /* LaunchScreen.storyboard */; };
+		9296FE9925F91CAD0042DF3A /* PaintingNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9296FE9825F91CAD0042DF3A /* PaintingNode.swift */; };
 		92D2461225F571C20081F484 /* ARViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9279BE4225F56DD500AED139 /* ARViewController.swift */; };
 		92D2461A25F572F40081F484 /* SinglePictureCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92D2461825F572F40081F484 /* SinglePictureCell.swift */; };
 		92D2461B25F572F40081F484 /* SinglePictureCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 92D2461925F572F40081F484 /* SinglePictureCell.xib */; };
 		92D2462125F61B3B0081F484 /* ChooseModelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92D2462025F61B3B0081F484 /* ChooseModelViewController.swift */; };
 		92D2464225F636CE0081F484 /* ARSCNView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92D2464125F636CE0081F484 /* ARSCNView+Extensions.swift */; };
-		92D2464C25F6758B0081F484 /* Grid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92D2464B25F6758B0081F484 /* Grid.swift */; };
+		92D2464C25F6758B0081F484 /* GridNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92D2464B25F6758B0081F484 /* GridNode.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,11 +28,12 @@
 		9279BE4725F56DD700AED139 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9279BE4A25F56DD700AED139 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9279BE4C25F56DD700AED139 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9296FE9825F91CAD0042DF3A /* PaintingNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaintingNode.swift; sourceTree = "<group>"; };
 		92D2461825F572F40081F484 /* SinglePictureCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SinglePictureCell.swift; sourceTree = "<group>"; };
 		92D2461925F572F40081F484 /* SinglePictureCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SinglePictureCell.xib; sourceTree = "<group>"; };
 		92D2462025F61B3B0081F484 /* ChooseModelViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseModelViewController.swift; sourceTree = "<group>"; };
 		92D2464125F636CE0081F484 /* ARSCNView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ARSCNView+Extensions.swift"; sourceTree = "<group>"; };
-		92D2464B25F6758B0081F484 /* Grid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Grid.swift; sourceTree = "<group>"; };
+		92D2464B25F6758B0081F484 /* GridNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridNode.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,7 +107,8 @@
 		927AF7BE25F8D4E700287AAA /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				92D2464B25F6758B0081F484 /* Grid.swift */,
+				92D2464B25F6758B0081F484 /* GridNode.swift */,
+				9296FE9825F91CAD0042DF3A /* PaintingNode.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -202,7 +205,8 @@
 				92D2461A25F572F40081F484 /* SinglePictureCell.swift in Sources */,
 				92D2464225F636CE0081F484 /* ARSCNView+Extensions.swift in Sources */,
 				92D2461225F571C20081F484 /* ARViewController.swift in Sources */,
-				92D2464C25F6758B0081F484 /* Grid.swift in Sources */,
+				9296FE9925F91CAD0042DF3A /* PaintingNode.swift in Sources */,
+				92D2464C25F6758B0081F484 /* GridNode.swift in Sources */,
 				92D2462125F61B3B0081F484 /* ChooseModelViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
