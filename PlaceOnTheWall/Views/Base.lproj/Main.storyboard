@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="3db-2M-Mq8">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -19,19 +20,29 @@
                             <arscnView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="61r-T4-tNH">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="862"/>
                             </arscnView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="IcK-In-aqe">
+                                <rect key="frame" x="25" y="64" width="364" height="0.0"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="N0e-YP-E7l"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="61r-T4-tNH" firstAttribute="top" secondItem="FhX-WA-gEI" secondAttribute="top" id="27W-xu-oMf"/>
                             <constraint firstItem="61r-T4-tNH" firstAttribute="leading" secondItem="N0e-YP-E7l" secondAttribute="leading" id="39n-3k-KuO"/>
+                            <constraint firstItem="IcK-In-aqe" firstAttribute="top" secondItem="N0e-YP-E7l" secondAttribute="top" constant="20" id="4JA-hW-YPd"/>
                             <constraint firstItem="61r-T4-tNH" firstAttribute="bottom" secondItem="N0e-YP-E7l" secondAttribute="bottom" id="Px2-1e-22C"/>
+                            <constraint firstItem="N0e-YP-E7l" firstAttribute="trailing" secondItem="IcK-In-aqe" secondAttribute="trailing" constant="25" id="U2D-qp-an6"/>
+                            <constraint firstItem="IcK-In-aqe" firstAttribute="leading" secondItem="N0e-YP-E7l" secondAttribute="leading" constant="25" id="Ybo-ti-oTe"/>
                             <constraint firstItem="61r-T4-tNH" firstAttribute="trailing" secondItem="N0e-YP-E7l" secondAttribute="trailing" id="u3U-fa-Sui"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="LR5-xx-btq"/>
                     <connections>
                         <outlet property="sceneView" destination="61r-T4-tNH" id="uqG-fs-aBB"/>
+                        <outlet property="statusLabel" destination="IcK-In-aqe" id="Jey-p3-h8J"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Q3g-jn-j0V" sceneMemberID="firstResponder"/>

@@ -12,33 +12,54 @@ import ARKit
 class ARViewController: UIViewController {
     
     @IBOutlet weak var sceneView: ARSCNView!
+    @IBOutlet weak var statusLabel: UILabel!
     
-    let sceneManager = SceneManager()
+    var currentNode: SCNNode?
     
-    var currentAngleY: Float = 0.0
-    var touchBeganTime: Date?
-    var tileHasMoved = false
+    var isPaintingPlaced = false
+    
+    var nodeHasMoved = false
     var draggedNode: SCNNode?
+    var touchBeganTime: Date?
     
-    var paintingNumber: Int? {
+    var grids = [Grid]()
+    
+    var paintingNumber: Int?
+    
+    var trackingStatus: String = "" {
         didSet {
-            sceneManager.paintingNumber = paintingNumber
+            statusLabel.text = trackingStatus
         }
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        sceneManager.attach(to: sceneView)
-        sceneManager.showSceneDebugInfo()
+        guard ARWorldTrackingConfiguration.isSupported else {
+            print("*** ARConfig: AR World Tracking Not Supported")
+            trackingStatus = "AR World Tracking Not Supported"
+            return
+        }
+        
+        sceneView.delegate = self
+        sceneView.session.delegate = self
+        sceneView.configureARSession()
+        sceneView.configureSceneView()
+        sceneView.showSceneDebugInfo()
         
         initCoachingOverlayView()
         
         let scaleGesture = UIPinchGestureRecognizer(target: self, action: #selector(scaleNode))
         self.sceneView.addGestureRecognizer(scaleGesture)
-        
-        let rotationGesture = UIRotationGestureRecognizer(target: self, action: #selector(rotateNode))
-        self.sceneView.addGestureRecognizer(rotationGesture)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        sceneView.pauseARSession()
     }
     
     func initCoachingOverlayView() {
@@ -63,54 +84,61 @@ class ARViewController: UIViewController {
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        guard let currentNode = self.currentNode else {
+            return
+        }
         touches.forEach {
             let touch = $0
             if(touch.view == self.sceneView) {
                 let viewTouchLocation = touch.location(in: sceneView)
-                let arHitTestResult = sceneView.hitTest(viewTouchLocation, types: .featurePoint)
-                guard arHitTestResult.count > 0 else { return }
-                
-                let result = sceneView.hitTest(viewTouchLocation, options: [SCNHitTestOption.searchMode: SCNHitTestSearchMode.all.rawValue])
-                guard !result.isEmpty else { return }
-                for hitTestResult in result {
-                    let topNode = hitTestResult.node
-                    draggedNode = topNode
-                    touchBeganTime = Date()
-                    tileHasMoved = false
-                    return
+
+                let results = sceneView.hitTest(viewTouchLocation, options: [SCNHitTestOption.searchMode: SCNHitTestSearchMode.all.rawValue])
+                guard !results.isEmpty else { return }
+                for hitTestResult in results {
+                    if hitTestResult.node == currentNode {
+                        draggedNode = currentNode
+                        touchBeganTime = Date()
+                        nodeHasMoved = false
+                        return
+                    }
                 }
             }
         }
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
         guard let touchBeganTime = touchBeganTime, Date().timeIntervalSince1970 -  touchBeganTime.timeIntervalSince1970 > 0.3 else {
             return
         }
+        
         guard let draggedNode = draggedNode else { return }
-        touches.forEach {
-            let touch = $0
+        touches.forEach { (touch) in
+            
             if touch.view == self.sceneView {
                 let viewTouchLocation = touch.location(in: sceneView)
                 let results = sceneView.hitTest(viewTouchLocation, types: .existingPlane)
                 guard results.count > 0 else { return }
                 draggedNode.simdWorldTransform = results[0].worldTransform
                 draggedNode.eulerAngles.x = -.pi/2
-                tileHasMoved = true
+                nodeHasMoved = true
             }
         }
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        guard tileHasMoved else { return }
+        guard nodeHasMoved else { return }
         self.draggedNode = nil
+        nodeHasMoved = false
     }
     
     @objc func scaleNode(gesture: UIPinchGestureRecognizer) {
         
-        guard let currentNode = sceneManager.currentParentNode?.childNodes.first else { return }
-        if gesture.state == .changed {
+        guard let currentNode = self.currentNode else { return }
+        
+        let location = gesture.location(in: sceneView)
+        let results = sceneView.hitTest(location)
+        
+        if gesture.state == .changed && currentNode == results.first?.node {
             
             let pinchScaleX: CGFloat = gesture.scale * CGFloat((currentNode.scale.x))
             let pinchScaleY: CGFloat = gesture.scale * CGFloat((currentNode.scale.y))
@@ -119,34 +147,125 @@ class ARViewController: UIViewController {
             gesture.scale = 1
         }
     }
+}
+
+extension ARViewController {
+    private func addPainting(to node: SCNNode) {
+        let planeGeometry = SCNPlane(width: 0.25, height: 0.25)
+        let material = SCNMaterial()
+        material.diffuse.contents = UIImage(named: "painting\(paintingNumber ?? 0)")
+        planeGeometry.materials = [material]
+        
+        let paintingNode = SCNNode(geometry: planeGeometry)
+        paintingNode.eulerAngles = SCNVector3(paintingNode.eulerAngles.x + (-Float.pi / 2), paintingNode.eulerAngles.y, paintingNode.eulerAngles.z)
+        paintingNode.position = node.position
+        node.addChildNode(paintingNode)
+        currentNode = paintingNode
+        
+        isPaintingPlaced = true
+    }
     
-    @objc func rotateNode(_ gesture: UIRotationGestureRecognizer) {
-        
-        guard let currentNode = sceneManager.currentParentNode?.childNodes.first else { return }
-        
-        let rotation = Float(gesture.rotation)
-        
-        if gesture.state == .changed {
-            currentNode.eulerAngles.y = currentAngleY + rotation
-        }
-        
-        if(gesture.state == .ended) {
-            currentAngleY = currentNode.eulerAngles.y
-        }
+    private func addNodeAnchor(worldTransform: simd_float4x4) {
+        sceneView.session.add(anchor: ARAnchor(name: "node_anchor", transform: worldTransform))
     }
 }
 
+// MARK: - ARSCNViewDelegate methods
+extension ARViewController: ARSCNViewDelegate {
+    func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
+        if let name = anchor.name, !isPaintingPlaced, name == "node_anchor" {
+            addPainting(to: node)
+            self.grids.forEach { $0.removeFromParentNode() }
+            return
+        }
+        
+        guard let planeAnchor = anchor as? ARPlaneAnchor, planeAnchor.alignment == .vertical else { return }
+        if planeAnchor.extent.x * planeAnchor.extent.z > 0.1 {
+            addNodeAnchor(worldTransform: anchor.transform)
+            return
+        }
+        let grid = Grid(anchor: planeAnchor)
+        self.grids.append(grid)
+        node.addChildNode(grid)
+    }
+    
+    func renderer(_ renderer: SCNSceneRenderer, didUpdate node: SCNNode, for anchor: ARAnchor) {
+        guard let planeAnchor = anchor as? ARPlaneAnchor, planeAnchor.alignment == .vertical else { return }
+        let grid = self.grids.filter { grid in
+            return grid.anchor.identifier == planeAnchor.identifier
+        }.first
+        
+        if planeAnchor.extent.x * planeAnchor.extent.z > 0.1 {
+            addNodeAnchor(worldTransform: anchor.transform)
+            return
+        }
+        
+        guard let foundGrid = grid else {
+            return
+        }
+        
+        foundGrid.update(anchor: planeAnchor)
+    }
+}
+
+// MARK: - ARSessionDelegate methods
+extension ARViewController: ARSessionDelegate {
+    func session(_ session: ARSession, cameraDidChangeTrackingState camera: ARCamera) {
+      switch camera.trackingState {
+      case .notAvailable:
+        self.trackingStatus = "Tacking:  Not available!"
+        break
+      case .normal:
+        self.trackingStatus = ""
+        break
+      case .limited(let reason):
+        switch reason {
+        case .excessiveMotion:
+          self.trackingStatus = "Tracking: Limited due to excessive motion!"
+          break
+        case .insufficientFeatures:
+          self.trackingStatus = "Tracking: Limited due to insufficient features!"
+          break
+        case .relocalizing:
+          self.trackingStatus = "Tracking: Relocalizing..."
+          break
+        case .initializing:
+          self.trackingStatus = "Tracking: Initializing..."
+          break
+        @unknown default:
+          self.trackingStatus = "Tracking: Unknown..."
+        }
+      }
+    }
+    
+    func session(_ session: ARSession, didFailWithError error: Error) {
+        self.trackingStatus = "AR Session Failure: \(error.localizedDescription)"
+    }
+
+    func sessionWasInterrupted(_ session: ARSession) {
+        self.trackingStatus = "AR Session Was Interrupted!"
+        print("sessionWasInterrupted")
+    }
+
+    func sessionInterruptionEnded(_ session: ARSession) {
+        self.trackingStatus = "AR Session Interruption Ended"
+        print("sessionInterruptionEnded")
+        sceneView.resetARSession()
+    }
+}
+
+// MARK: - ARCoachingOverlayViewDelegate methods
 extension ARViewController : ARCoachingOverlayViewDelegate {
-    
-    // MARK: - AR Coaching Overlay View
-    
     func coachingOverlayViewWillActivate(_ coachingOverlayView: ARCoachingOverlayView) {
+        print("coachingOverlayViewWillActivate")
     }
     
     func coachingOverlayViewDidDeactivate(_ coachingOverlayView: ARCoachingOverlayView) {
+        print("coachingOverlayViewDidDeactivate")
     }
     
     func coachingOverlayViewDidRequestSessionReset(_ coachingOverlayView: ARCoachingOverlayView) {
-        sceneManager.resetARSession()
+        print("coachingOverlayViewDidRequestSessionReset")
+        sceneView.resetARSession()
     }
 }
