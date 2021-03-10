@@ -32,7 +32,6 @@ class Grid : SCNNode {
         planeGeometry.materials = [material]
         let planeNode = SCNNode(geometry: self.planeGeometry)
         planeNode.physicsBody = SCNPhysicsBody(type: .static, shape: SCNPhysicsShape(geometry: self.planeGeometry, options: nil))
-        planeNode.physicsBody?.categoryBitMask = 2
         
         planeNode.position = SCNVector3Make(anchor.center.x, 0, anchor.center.z);
         planeNode.transform = SCNMatrix4MakeRotation(Float(-Double.pi / 2.0), 1.0, 0.0, 0.0);
@@ -45,7 +44,7 @@ class Grid : SCNNode {
         planeGeometry.height = CGFloat(anchor.extent.z);
         position = SCNVector3Make(anchor.center.x, 0, anchor.center.z);
         
-        let planeNode = self.childNodes.first!
+        guard let planeNode = self.childNodes.first else { return }
         planeNode.physicsBody = SCNPhysicsBody(type: .static, shape: SCNPhysicsShape(geometry: self.planeGeometry, options: nil))
     }
 }
