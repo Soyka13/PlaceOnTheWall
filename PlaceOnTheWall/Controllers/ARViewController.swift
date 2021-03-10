@@ -22,7 +22,7 @@ class ARViewController: UIViewController {
     var draggedNode: SCNNode?
     var touchBeganTime: Date?
     
-    var grids = [Grid]()
+    var grids = [GridNode]()
     
     var paintingNumber: Int?
     
@@ -83,6 +83,12 @@ class ARViewController: UIViewController {
         ])
     }
     
+    private func resetProperties() {
+        isPaintingPlaced = false
+        currentNode = nil
+        grids.removeAll()
+    }
+    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let currentNode = self.currentNode else {
             return
@@ -91,7 +97,7 @@ class ARViewController: UIViewController {
             let touch = $0
             if(touch.view == self.sceneView) {
                 let viewTouchLocation = touch.location(in: sceneView)
-
+                
                 let results = sceneView.hitTest(viewTouchLocation, options: [SCNHitTestOption.searchMode: SCNHitTestSearchMode.all.rawValue])
                 guard !results.isEmpty else { return }
                 for hitTestResult in results {
@@ -151,14 +157,9 @@ class ARViewController: UIViewController {
 
 extension ARViewController {
     private func addPainting(to node: SCNNode) {
-        let planeGeometry = SCNPlane(width: 0.25, height: 0.25)
-        let material = SCNMaterial()
-        material.diffuse.contents = UIImage(named: "painting\(paintingNumber ?? 0)")
-        planeGeometry.materials = [material]
+        let paintingNode = PaintingNode()
+        paintingNode.setup(image: UIImage(named: "painting\(paintingNumber ?? 0)"), position: node.position)
         
-        let paintingNode = SCNNode(geometry: planeGeometry)
-        paintingNode.eulerAngles = SCNVector3(paintingNode.eulerAngles.x + (-Float.pi / 2), paintingNode.eulerAngles.y, paintingNode.eulerAngles.z)
-        paintingNode.position = node.position
         node.addChildNode(paintingNode)
         currentNode = paintingNode
         
@@ -167,6 +168,12 @@ extension ARViewController {
     
     private func addNodeAnchor(worldTransform: simd_float4x4) {
         sceneView.session.add(anchor: ARAnchor(name: "node_anchor", transform: worldTransform))
+    }
+    
+    func removeARPlaneNode(node: SCNNode) {
+        for childNode in node.childNodes {
+            childNode.removeFromParentNode()
+        }
     }
 }
 
@@ -184,7 +191,7 @@ extension ARViewController: ARSCNViewDelegate {
             addNodeAnchor(worldTransform: anchor.transform)
             return
         }
-        let grid = Grid(anchor: planeAnchor)
+        let grid = GridNode(anchor: planeAnchor)
         self.grids.append(grid)
         node.addChildNode(grid)
     }
@@ -206,47 +213,54 @@ extension ARViewController: ARSCNViewDelegate {
         
         foundGrid.update(anchor: planeAnchor)
     }
+    
+    func renderer(_ renderer: SCNSceneRenderer, didRemove node: SCNNode, for anchor: ARAnchor) {
+        guard anchor is ARPlaneAnchor else { return }
+        self.removeARPlaneNode(node: node)
+    }
 }
 
 // MARK: - ARSessionDelegate methods
 extension ARViewController: ARSessionDelegate {
     func session(_ session: ARSession, cameraDidChangeTrackingState camera: ARCamera) {
-      switch camera.trackingState {
-      case .notAvailable:
-        self.trackingStatus = "Tacking:  Not available!"
-        break
-      case .normal:
-        self.trackingStatus = ""
-        break
-      case .limited(let reason):
-        switch reason {
-        case .excessiveMotion:
-          self.trackingStatus = "Tracking: Limited due to excessive motion!"
-          break
-        case .insufficientFeatures:
-          self.trackingStatus = "Tracking: Limited due to insufficient features!"
-          break
-        case .relocalizing:
-          self.trackingStatus = "Tracking: Relocalizing..."
-          break
-        case .initializing:
-          self.trackingStatus = "Tracking: Initializing..."
-          break
-        @unknown default:
-          self.trackingStatus = "Tracking: Unknown..."
+        switch camera.trackingState {
+        case .notAvailable:
+            self.trackingStatus = "Tacking:  Not available!"
+            break
+        case .normal:
+            self.trackingStatus = ""
+            break
+        case .limited(let reason):
+            switch reason {
+            case .excessiveMotion:
+                self.trackingStatus = "Tracking: Limited due to excessive motion!"
+                break
+            case .insufficientFeatures:
+                self.trackingStatus = "Tracking: Limited due to insufficient features!"
+                break
+            case .relocalizing:
+                self.trackingStatus = "Tracking: Relocalizing..."
+                break
+            case .initializing:
+                self.trackingStatus = "Tracking: Initializing..."
+                break
+            @unknown default:
+                self.trackingStatus = "Tracking: Unknown..."
+            }
         }
-      }
     }
     
     func session(_ session: ARSession, didFailWithError error: Error) {
         self.trackingStatus = "AR Session Failure: \(error.localizedDescription)"
+        resetProperties()
     }
-
+    
     func sessionWasInterrupted(_ session: ARSession) {
         self.trackingStatus = "AR Session Was Interrupted!"
         print("sessionWasInterrupted")
+        resetProperties()
     }
-
+    
     func sessionInterruptionEnded(_ session: ARSession) {
         self.trackingStatus = "AR Session Interruption Ended"
         print("sessionInterruptionEnded")

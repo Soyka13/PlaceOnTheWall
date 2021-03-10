@@ -32,11 +32,14 @@ extension ARSCNView {
     
     func resetARSession() {
         guard let config = self.session.configuration as? ARWorldTrackingConfiguration else { return }
+        config.planeDetection = .vertical
         print("session reseted")
         self.session.run(config, options: [.resetTracking, .removeExistingAnchors])
     }
     
     func pauseARSession() {
+        guard let config = self.session.configuration as? ARWorldTrackingConfiguration else { return }
+        config.planeDetection = []
         print("session paused")
         self.session.pause()
     }
