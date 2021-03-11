@@ -142,9 +142,8 @@ class ARViewController: UIViewController {
         guard let currentNode = self.currentNode else { return }
         
         let location = gesture.location(in: sceneView)
-        let results = sceneView.hitTest(location)
         
-        if gesture.state == .changed && currentNode == results.first?.node {
+        if gesture.state == .changed {
             
             let pinchScaleX: CGFloat = gesture.scale * CGFloat((currentNode.scale.x))
             let pinchScaleY: CGFloat = gesture.scale * CGFloat((currentNode.scale.y))
