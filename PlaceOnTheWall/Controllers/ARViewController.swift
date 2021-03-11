@@ -62,7 +62,7 @@ class ARViewController: UIViewController {
         sceneView.pauseARSession()
     }
     
-    func initCoachingOverlayView() {
+    private func initCoachingOverlayView() {
         let coachingOverlay = ARCoachingOverlayView()
         coachingOverlay.session = self.sceneView.session
         coachingOverlay.delegate = self
@@ -170,7 +170,7 @@ extension ARViewController {
         sceneView.session.add(anchor: ARAnchor(name: "node_anchor", transform: worldTransform))
     }
     
-    func removeARPlaneNode(node: SCNNode) {
+    private func removeARPlaneNode(node: SCNNode) {
         for childNode in node.childNodes {
             childNode.removeFromParentNode()
         }

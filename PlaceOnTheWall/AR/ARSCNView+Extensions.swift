@@ -17,8 +17,6 @@ extension ARSCNView {
     
     func configureSceneView() {
         autoenablesDefaultLighting = true
-        scene.physicsWorld.gravity = SCNVector3(0, -3.0, 0)
-        antialiasingMode = .multisampling4X
         automaticallyUpdatesLighting = true
         preferredFramesPerSecond = 60
     }
