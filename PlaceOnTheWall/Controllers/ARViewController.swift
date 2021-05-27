@@ -131,8 +131,8 @@ class ARViewController: UIViewController {
 
 extension ARViewController {
     private func addPainting(to node: SCNNode) {
-        let paintingNode = PaintingNode()
-        paintingNode.setup(image: UIImage(named: "painting\(paintingNumber ?? 0)"), position: node.position)
+        let paintingNode = PaintingNode(image: UIImage(named: "painting\(paintingNumber ?? 0)")!)
+        paintingNode.setup(position: node.position)
 
         node.addChildNode(paintingNode)
         currentNode = paintingNode

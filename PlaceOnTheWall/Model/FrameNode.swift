@@ -10,7 +10,7 @@ import SceneKit
 import ARKit
 
 class FrameNode: SCNNode {
-
+    
     
     func setup(position: SCNVector3) {
         // create top side of the frame
