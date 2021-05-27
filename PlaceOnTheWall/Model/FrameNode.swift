@@ -1,28 +1,18 @@
 //
-//  Picture.swift
+//  FrameNode.swift
 //  PlaceOnTheWall
 //
-//  Created by Olena Stepaniuk on 10.03.2021.
+//  Created by Olena Stepaniuk on 26.05.2021.
 //
 
 import Foundation
+import SceneKit
 import ARKit
 
-class PaintingNode: SCNNode {
+class FrameNode: SCNNode {
+
     
-    var image: UIImage?
-    let width: CGFloat = 0.3
-    let height: CGFloat = 0.3
-    
-    override init() {
-        super.init()
-    }
-    
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-    }
-    
-    func setup(image: UIImage?, position: SCNVector3) {
+    func setup(position: SCNVector3) {
         // create top side of the frame
         let topPart = SCNBox(width: 0.1, height: 0.01, length: 0.02, chamferRadius: 0.001)
         let topPartNode = SCNNode(geometry: topPart)
@@ -54,18 +44,5 @@ class PaintingNode: SCNNode {
         bottomSideNode.position = SCNVector3(topPartNode.position.x , topPartNode.position.y , topPartNode.position.z + Float(leftSide.width) + Float(leftSide.height))
         print("Position of bottom part: \(leftPartNode.position)")
         addChildNode(bottomSideNode)
-        
-        // create image node
-        let imageGeometry = SCNPlane(width: 0.1, height: 0.1)
-        
-        let material = SCNMaterial()
-        material.diffuse.contents = image
-        imageGeometry.materials = [material]
-        
-        let imageNode = SCNNode(geometry: imageGeometry)
-        imageNode.eulerAngles = SCNVector3(self.eulerAngles.x + (-Float.pi / 2), self.eulerAngles.y, self.eulerAngles.z)
-        imageNode.position = SCNVector3(topPartNode.position.x, 0, topPartNode.position.z + Float(rightSide.width)/2 + Float(topPart.height)/2)
-        print("Position of image node: \(imageNode.position)")
-        addChildNode(imageNode)
     }
 }

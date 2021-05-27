@@ -47,8 +47,6 @@ class ARViewController: UIViewController {
         sceneView.configureSceneView()
         sceneView.showSceneDebugInfo()
         
-        initCoachingOverlayView()
-        
         let scaleGesture = UIPinchGestureRecognizer(target: self, action: #selector(scaleNode))
         self.sceneView.addGestureRecognizer(scaleGesture)
     }
@@ -60,27 +58,6 @@ class ARViewController: UIViewController {
     override func viewDidDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         sceneView.pauseARSession()
-    }
-    
-    private func initCoachingOverlayView() {
-        let coachingOverlay = ARCoachingOverlayView()
-        coachingOverlay.session = self.sceneView.session
-        coachingOverlay.delegate = self
-        coachingOverlay.translatesAutoresizingMaskIntoConstraints = false
-        coachingOverlay.activatesAutomatically = true
-        coachingOverlay.goal = .verticalPlane
-        self.sceneView.addSubview(coachingOverlay)
-        
-        NSLayoutConstraint.activate([
-            NSLayoutConstraint(item:  coachingOverlay, attribute: .top, relatedBy: .equal,
-                               toItem: self.view, attribute: .top, multiplier: 1, constant: 0),
-            NSLayoutConstraint(item:  coachingOverlay, attribute: .bottom, relatedBy: .equal,
-                               toItem: self.view, attribute: .bottom, multiplier: 1, constant: 0),
-            NSLayoutConstraint(item:  coachingOverlay, attribute: .leading, relatedBy: .equal,
-                               toItem: self.view, attribute: .leading, multiplier: 1, constant: 0),
-            NSLayoutConstraint(item:  coachingOverlay, attribute: .trailing, relatedBy: .equal,
-                               toItem: self.view, attribute: .trailing, multiplier: 1, constant: 0)
-        ])
     }
     
     private func resetProperties() {
@@ -156,10 +133,14 @@ extension ARViewController {
     private func addPainting(to node: SCNNode) {
         let paintingNode = PaintingNode()
         paintingNode.setup(image: UIImage(named: "painting\(paintingNumber ?? 0)"), position: node.position)
-        
+
         node.addChildNode(paintingNode)
         currentNode = paintingNode
         
+//        let frameNode = FrameNode()
+//        frameNode.setup(position: node.position)
+//        node.addChildNode(frameNode)
+//        currentNode = frameNode
         isPaintingPlaced = true
     }
     
@@ -261,22 +242,6 @@ extension ARViewController: ARSessionDelegate {
     func sessionInterruptionEnded(_ session: ARSession) {
         self.trackingStatus = "AR Session Interruption Ended"
         print("sessionInterruptionEnded")
-        sceneView.resetARSession()
-    }
-}
-
-// MARK: - ARCoachingOverlayViewDelegate methods
-extension ARViewController : ARCoachingOverlayViewDelegate {
-    func coachingOverlayViewWillActivate(_ coachingOverlayView: ARCoachingOverlayView) {
-        print("coachingOverlayViewWillActivate")
-    }
-    
-    func coachingOverlayViewDidDeactivate(_ coachingOverlayView: ARCoachingOverlayView) {
-        print("coachingOverlayViewDidDeactivate")
-    }
-    
-    func coachingOverlayViewDidRequestSessionReset(_ coachingOverlayView: ARCoachingOverlayView) {
-        print("coachingOverlayViewDidRequestSessionReset")
         sceneView.resetARSession()
     }
 }
